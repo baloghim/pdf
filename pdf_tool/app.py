@@ -152,6 +152,11 @@ def main():
     app = QApplication(sys.argv)
     window = Window()
     window.show()
+    if "--smoke-test" in sys.argv:
+        app.processEvents()
+        assert window.tabs.count() == 2
+        window.close()
+        return 0
     return app.exec()
 
 
