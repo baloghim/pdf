@@ -3,6 +3,7 @@
 Python-alapú asztali alkalmazás magyar grafikus felülettel. A fájlokat helyben dolgozza fel, nem tölti fel őket.
 
 - Több PDF összefűzése, húzással módosítható fájlsorrenddel.
+- PDF-ek behúzása Finderből vagy más fájlkezelőből az ablakra: az Összefűzés fülön hozzáadás a listához, a Kettévágás fülön egyetlen PDF megnyitása. Mappák és nem PDF fájlok nem húzhatók be.
 - Egy PDF kettévágása a megadott oldal után.
 - Bemeneti és meglévő fájlok felülírásának tiltása.
 - Háttérben végzett mentés, hogy a felület használható maradjon.

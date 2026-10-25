@@ -1,7 +1,7 @@
 """Cross-platform desktop interface."""
 import sys
 from pathlib import Path
-from PySide6.QtCore import Qt, QObject, Signal, QThread
+from PySide6.QtCore import Qt, QObject, Signal, QThread, QEvent
 from PySide6.QtWidgets import (QApplication, QWidget, QVBoxLayout, QHBoxLayout,
     QPushButton, QListWidget, QFileDialog, QMessageBox, QLabel, QTabWidget,
     QSpinBox, QAbstractItemView)
@@ -36,7 +36,7 @@ class Window(QWidget):
         layout.addWidget(self.tabs)
         merge_tab = QWidget()
         ml = QVBoxLayout(merge_tab)
-        ml.addWidget(QLabel("A fájlok az alábbi sorrendben kerülnek az új PDF-be. Húzással átrendezhetők."))
+        ml.addWidget(QLabel("Húzz ide PDF-eket. A lista elemei húzással átrendezhetők."))
         self.files = QListWidget()
         self.files.setDragDropMode(QAbstractItemView.DragDropMode.InternalMove)
         self.files.setSelectionMode(QAbstractItemView.SelectionMode.ExtendedSelection)
@@ -50,7 +50,7 @@ class Window(QWidget):
         split_tab = QWidget()
         sl = QVBoxLayout(split_tab)
         self.button(sl, "PDF kiválasztása…", self.choose_source)
-        self.source_label = QLabel("Még nincs kiválasztott fájl.")
+        self.source_label = QLabel("Húzz ide egy PDF-et, vagy válaszd ki a gombbal.")
         self.source_label.setWordWrap(True)
         sl.addWidget(self.source_label)
         sl.addWidget(QLabel("Az első fájl utolsó oldalának száma:"))
@@ -64,6 +64,37 @@ class Window(QWidget):
         self.tabs.addTab(split_tab, "Kettévágás")
         self.status = QLabel("Készen áll.")
         layout.addWidget(self.status)
+        # Intercept external file drops throughout the window, including the
+        # list viewport. Internal Qt item drags retain their original handling.
+        for widget in [self, *self.findChildren(QWidget)]:
+            widget.setAcceptDrops(True)
+            widget.installEventFilter(self)
+
+    def eventFilter(self, watched, event):
+        if event.type() not in (QEvent.Type.DragEnter, QEvent.Type.DragMove,
+                                QEvent.Type.Drop):
+            return super().eventFilter(watched, event)
+        if not event.mimeData().hasUrls():
+            return super().eventFilter(watched, event)
+        urls = event.mimeData().urls()
+        paths = [url.toLocalFile() for url in urls if url.isLocalFile()]
+        valid = (self.tabs.isEnabled() and len(paths) == len(urls) and bool(paths)
+                 and all(Path(p).is_file() and Path(p).suffix.lower() == ".pdf"
+                         for p in paths))
+        if self.tabs.currentIndex() == 1 and len(paths) != 1:
+            valid = False
+        if not valid:
+            event.ignore()
+            return True
+        event.setDropAction(Qt.DropAction.CopyAction)
+        event.accept()
+        if event.type() == QEvent.Type.Drop:
+            if self.tabs.currentIndex() == 0:
+                self.files.addItems(paths)
+                self.status.setText(f"{len(paths)} PDF hozzáadva.")
+            else:
+                self.open_source(paths[0])
+        return True
 
     def button(self, layout, text, action):
         button = QPushButton(text)
@@ -97,8 +128,10 @@ class Window(QWidget):
 
     def choose_source(self):
         path, _ = QFileDialog.getOpenFileName(self, "PDF kiválasztása", "", "PDF (*.pdf)")
-        if not path:
-            return
+        if path:
+            self.open_source(path)
+
+    def open_source(self, path):
         try:
             count = core.page_count(path)
             if count < 2:
@@ -109,6 +142,8 @@ class Window(QWidget):
         self.source_label.setText(f"{Path(path).name} — {count} oldal")
         self.cut.setEnabled(True)
         self.cut.setMaximum(count - 1)
+        self.cut.setValue(1)
+        self.status.setText("PDF megnyitva. Válaszd ki a vágás helyét.")
 
     def split(self):
         if not self.source:
