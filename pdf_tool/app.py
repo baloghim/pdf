@@ -77,7 +77,9 @@ class Window(QWidget):
         if not event.mimeData().hasUrls():
             return super().eventFilter(watched, event)
         urls = event.mimeData().urls()
-        paths = [url.toLocalFile() for url in urls if url.isLocalFile()]
+        # Qt uses forward slashes even on Windows. Keep dropped paths in
+        # the same native format as paths selected through the file dialog.
+        paths = [str(Path(url.toLocalFile())) for url in urls if url.isLocalFile()]
         valid = (self.tabs.isEnabled() and len(paths) == len(urls) and bool(paths)
                  and all(Path(p).is_file() and Path(p).suffix.lower() == ".pdf"
                          for p in paths))
