@@ -1,5 +1,29 @@
 # PDF Műhely
 
+## Letöltés Windowsra
+
+**[Windows x64 alkalmazás letöltése (ZIP)](https://github.com/baloghim/pdf/releases/latest/download/PDF-Muhely-Windows-x64.zip)** · [Kiadások és ellenőrzőösszegek](https://github.com/baloghim/pdf/releases)
+
+A letöltés az első sikeres Windows-build és közzététel után válik elérhetővé. A legutóbbi kiadás állapota a [Windows alkalmazás munkafolyamatban](https://github.com/baloghim/pdf/actions/workflows/windows-app.yml) látható. Sikertelen új build esetén a link az előző sikeres kiadásra mutat.
+
+1. Töltsd le a ZIP-et, és **bontsd ki a teljes tartalmát** a Windows-gépre.
+2. A kibontott `PDF-Muhely` mappában indítsd el a **PDF-Muhely.exe** fájlt. Ne a ZIP-en belül indítsd, és ne másold ki külön az EXE-t: a mellette lévő `_internal` mappa is szükséges.
+3. Python és telepítő nem szükséges. Az egész mappa átmásolható másik kompatibilis PC-re.
+
+64 bites Windows 10 (1809 vagy újabb), illetve Windows 11 a célplatform; a 32 bites Windows nem támogatott. A GitHub a csomagot Windows Server 2022-n építi és teszteli, ami nem helyettesíti a valódi Windows 10-en végzett kézi ellenőrzést. A program nincs digitálisan aláírva, ezért a SmartScreen figyelmeztethet. Csak a saját tárolód megbízható kiadását indítsd el. Privát tárolónál a letöltéshez GitHub-bejelentkezés kell.
+
+A csomag a Python futtatókörnyezetét és a függőségeket is tartalmazza. A ZIP mellett elérhető `SHA256SUMS.txt` az átmásolt fájl ellenőrzésére szolgál.
+
+### Windows-csomag készítése helyben
+
+Windows alatt, Python 3.12-vel, a projekt mappájából PowerShellben:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File packaging/build_windows.ps1
+```
+
+Ez csak erre a folyamatra engedi a saját buildszkript futtatását; nem módosítja a gép tartós házirendjét. Eredmény: `dist/PDF-Muhely-Windows-x64.zip`. A GitHub automatikusan is összeállítja, teszteli és kiadásként közzéteszi a main ágra feltöltött programmódosításokat; kézzel az Actions oldali **Run workflow** gombbal indítható.
+
 Python-alapú asztali alkalmazás magyar grafikus felülettel. A fájlokat helyben dolgozza fel, nem tölti fel őket.
 
 - Több PDF összefűzése, húzással módosítható fájlsorrenddel.
