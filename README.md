@@ -1,40 +1,69 @@
 # PDF Műhely
 
-## Letöltés Windowsra
+Magyar nyelvű asztali alkalmazás PDF-ek összefűzésére és kettévágására. A fájlokat helyben dolgozza fel, feltöltés nélkül.
 
-**[Windows x64 alkalmazás letöltése (ZIP)](https://github.com/baloghim/pdf/releases/latest/download/PDF-Muhely-Windows-x64.zip)** · [Kiadások és ellenőrzőösszegek](https://github.com/baloghim/pdf/releases)
+## Letöltések
 
-A letöltés az első sikeres Windows-build és közzététel után válik elérhetővé. A legutóbbi kiadás állapota a [Windows alkalmazás munkafolyamatban](https://github.com/baloghim/pdf/actions/workflows/windows-app.yml) látható. Sikertelen új build esetén a link az előző sikeres kiadásra mutat.
+A kész alkalmazásokhoz nem kell Pythont telepíteni.
 
-1. Töltsd le a ZIP-et, és **bontsd ki a teljes tartalmát** a Windows-gépre.
-2. A kibontott `PDF-Muhely` mappában indítsd el a **PDF-Muhely.exe** fájlt. Ne a ZIP-en belül indítsd, és ne másold ki külön az EXE-t: a mellette lévő `_internal` mappa is szükséges.
-3. Python és telepítő nem szükséges. Az egész mappa átmásolható másik kompatibilis PC-re.
+| Rendszer / változat | Letöltés | Melyiket válaszd? |
+| --- | --- | --- |
+| **Windows x64 – LTSB 1607 kompatibilitási változat** | **[Legutóbbi Windows ZIP](https://github.com/baloghim/pdf/releases/latest/download/PDF-Muhely-Windows-x64.zip)** | Windows 10 Enterprise 2016 LTSB 1607 géphez ezt készítjük; újabb 64 bites Windows is célplatform. |
+| **macOS – Apple Silicon** | **[Mac-csomagok az Actions oldalon](https://github.com/baloghim/pdf/actions/workflows/macos-app.yml)** | M-sorozatú processzorhoz az `PDF-Muhely-macOS-arm64` artifactot válaszd. |
+| **macOS – Intel** | **[Mac-csomagok az Actions oldalon](https://github.com/baloghim/pdf/actions/workflows/macos-app.yml)** | Intel processzorhoz az `PDF-Muhely-macOS-x86_64` artifactot válaszd. |
 
-64 bites Windows 10 Enterprise 2016 LTSB 1607 (és újabb Windows 10/11) a célplatform; a 32 bites Windows nem támogatott. A GitHub a csomagot Windows Server 2022-n építi és teszteli, ami nem helyettesíti a valódi Windows 10 LTSB 1607-en végzett kézi ellenőrzést. Az 1607-kompatibilitás cél, az első ezen a gépen történő sikeres indításig nem tekinthető igazoltnak. A program nincs digitálisan aláírva, ezért a SmartScreen figyelmeztethet. Csak a saját tárolód megbízható kiadását indítsd el. Privát tárolónál a letöltéshez GitHub-bejelentkezés kell.
+**[Összes Windows-kiadás és korábbi verziók](https://github.com/baloghim/pdf/releases)** · **[Windows-build állapota](https://github.com/baloghim/pdf/actions/workflows/windows-app.yml)** · **[Mac-build állapota](https://github.com/baloghim/pdf/actions/workflows/macos-app.yml)**
 
-A Windows 1607 kompatibilitási csomag Python 3.10-et és Qt 5.15.2-t (PySide2 5.15.2.1) használ, és tartalmazza a hozzá tartozó Visual C++ runtime DLL-eket is; a macOS-változat Qt-verziója ettől független. A csomag a Python futtatókörnyezetét és a függőségeket is tartalmazza. A ZIP mellett elérhető `SHA256SUMS.txt` az átmásolt fájl ellenőrzésére szolgál.
+A Windows-link a legutóbb sikeresen **közzétett** kiadásra mutat. Ha egy új build még fut vagy hibás, továbbra is az előző csomagot adja. Az első sikeres közzététel előtt a link nem működik. A kiadás címében szereplő rövid commitazonosító alapján ellenőrizhető, melyik változatot töltöd le. Privát tárolóhoz GitHub-bejelentkezés szükséges.
 
-### Windows-csomag készítése helyben
+A Mac-csomagok jelenleg az Actions futások **Artifacts** részéből tölthetők le, bejelentkezés után; 30 napig érhetők el. Nyisd meg a legutóbbi sikeres futást, és válaszd a processzorodhoz tartozó artifactot. Lejárt csomag esetén a **Run workflow** gombbal indítható új build.
 
-Windows alatt, **Python 3.10 x64** használatával (újabb Python nem jó ehhez a régi Qt-változathoz), a projekt mappájából PowerShellben:
+## Verziók és kompatibilitás
 
-```powershell
-powershell -ExecutionPolicy Bypass -File packaging/build_windows.ps1
-```
+Az alkalmazás projektverziója **0.1.0**. A fejlesztési csomagokat ezen belül a commitazonosító különbözteti meg; ezek nem külön számozott stabil kiadások.
 
-Ez csak erre a folyamatra engedi a saját buildszkript futtatását; nem módosítja a gép tartós házirendjét. Eredmény: `dist/PDF-Muhely-Windows-x64.zip`. A GitHub automatikusan is összeállítja, teszteli és kiadásként közzéteszi a main ágra feltöltött programmódosításokat; kézzel az Actions oldali **Run workflow** gombbal indítható.
+| Változat | Azonosító / hivatkozás | Megjegyzés |
+| --- | --- | --- |
+| **Windows LTSB 1607 kompatibilitási alap** | [`b7bcc00`](https://github.com/baloghim/pdf/commit/b7bcc00) · [pontos kiadás, ha a build közzétette](https://github.com/baloghim/pdf/releases/tag/windows-b7bcc009e8b015212c5e567ebdb46d96978291dc) | Python 3.10, Qt 5.15.2 / PySide2 5.15.2.1. A későbbi Windows-csomagok is ezen az alapon készülnek, amíg a dokumentáció mást nem jelez. |
+| Korábbi Windows Qt 6.8 változat | [`17e2403`](https://github.com/baloghim/pdf/commit/17e2403) | Nem az 1607-es rendszerhez készült; arra ne ezt válaszd. |
+| Első Windows Qt 6 változat | [`2c391e9`](https://github.com/baloghim/pdf/commit/2c391e9) | Korábbi csomag, LTSB 1607-hez nem megfelelő. |
+| macOS, Apple Silicon / Intel | [Legutóbbi sikeres Mac-build](https://github.com/baloghim/pdf/actions/workflows/macos-app.yml) | Python 3.12-vel csomagolva, Qt 6.10.2 / PySide6. |
 
-Python-alapú asztali alkalmazás magyar grafikus felülettel. A fájlokat helyben dolgozza fel, nem tölti fel őket.
+**Ellenőrzöttség:** az 1607-es változat célzottan ehhez a rendszerhez készül, de a valódi LTSB 1607 gépen történő sikeres indítás még nincs visszaigazolva. A Windows-csomagot a GitHub Windows Server 2022-n építi és teszteli. A Linuxos fejlesztőkörnyezetben mind a Qt 5-ös, mind a Qt 6-os változat 11 tesztje sikeres. Ez nem helyettesíti a natív Windows- és Mac-próbát.
 
-- Több PDF összefűzése, húzással módosítható fájlsorrenddel.
-- PDF-ek behúzása Finderből vagy más fájlkezelőből az ablakra: az Összefűzés fülön hozzáadás a listához, a Kettévágás fülön egyetlen PDF megnyitása. Mappák és nem PDF fájlok nem húzhatók be.
+## Használat Windows alatt
+
+1. Töltsd le a fenti Windows ZIP-et, és **bontsd ki a teljes tartalmát új, üres mappába**.
+2. A kibontott `PDF-Muhely` mappában indítsd a **`PDF-Muhely.exe`** fájlt.
+3. Az EXE mellett maradjon meg az **`_internal` mappa**. Az EXE önmagában nem elegendő; másik PC-re az egész mappát másold át.
+
+Ne a ZIP-en belül indítsd, és frissítéskor ne keverd a régi és az új csomag fájljait. A 32 bites Windows nem támogatott. A csomag tartalmazza a Pythont, a Qt-t és a hozzá tartozó Visual C++ runtime DLL-eket. A kiadás melletti `SHA256SUMS.txt` segítségével ellenőrizhető a ZIP ellenőrzőösszege.
+
+A program nincs digitálisan aláírva, ezért a SmartScreen figyelmeztethet. Csak megbízható forrásból letöltött csomagot indíts el.
+
+## Használat macOS alatt
+
+1. A fenti Mac-linken nyisd meg a legutóbbi sikeres futást, és töltsd le a megfelelő artifactot.
+2. Bontsd ki az archívumot, majd a benne lévő ZIP-et is.
+3. Másold a **`PDF Muhely.app`** fájlt az **Alkalmazások** mappába, és indítsd dupla kattintással.
+
+A processzor típusa az Apple menü **A Mac névjegye** pontjában látható. Az alkalmazás nincs Apple Developer tanúsítvánnyal aláírva és notarizálva. Ha a macOS blokkolja, és ellenőrizted a forrást, a **Rendszerbeállítások → Adatvédelem és biztonság → Megnyitás mindenképp** lehetőséggel engedélyezheted. Ne kapcsold ki a Gatekeepert.
+
+## Funkciók
+
+- Több PDF összefűzése; a fájlsorrend húzással változtatható.
 - Egy PDF kettévágása a megadott oldal után.
+- Fájlbehúzás Finderből vagy más fájlkezelőből: az Összefűzés fülön több PDF hozzáadása, a Kettévágás fülön egy PDF megnyitása.
 - Bemeneti és meglévő fájlok felülírásának tiltása.
-- Háttérben végzett mentés, hogy a felület használható maradjon.
+- Háttérben végzett mentés.
 
-## Indítás macOS-en
+Mappák és nem PDF fájlok nem húzhatók be. Jelszóval védett PDF-eket a program jelenleg nem kezel. A könyvjelzők, űrlapok és digitális aláírások teljes megőrzése nem garantált; a módosítás érvénytelenítheti a digitális aláírást.
 
-Macen Python 3.10 vagy újabb szükséges (a python.org telepítőjével is telepíthető). Windows alatt a kompatibilitási változathoz pontosan Python 3.10 x64 szükséges.
+## Fejlesztés és saját csomag készítése
+
+### Indítás forrásból
+
+Macen és Linuxon Python 3.10 vagy újabb, Windowson **Python 3.10 x64** szükséges a Qt 5-ös változathoz.
 
 ```sh
 cd pdf
@@ -44,32 +73,32 @@ python -m pip install -e '.[test]'
 python -m pdf_tool.app
 ```
 
-Linuxon ugyanezek a parancsok használhatók; a Qt grafikus rendszerkönyvtárait a disztribúció csomagkezelőjével is telepíteni kellhet. Windowson az aktiválás PowerShellben: `.venv\Scripts\Activate.ps1`.
+Windowson a környezet létrehozása `python -m venv .venv`, aktiválása PowerShellben `.venv\Scripts\Activate.ps1`. Linuxon a Qt rendszerkönyvtárait a disztribúció csomagkezelőjével is telepíteni kellhet.
+
+Tesztek:
 
 ```sh
-python -m pytest
+python -m pytest -q
 ```
 
-Az alkalmazás első verziója. A macOS-es natív használatot valódi Macen is ellenőrizni kell. Az .app csomag összeállítását az alábbi buildfolyamat végzi; Apple Developer kódaláírás és notarizálás még nincs beállítva. A PDF-könyvjelzők, űrlapok és digitális aláírások teljes megőrzése nem garantált; az aláírt dokumentum módosítása érvénytelenítheti az aláírást. Jelszóval védett PDF-eket a program jelenleg nem kezel.
+### Windows-csomag
 
-## Dupla kattintással indítható macOS alkalmazás
+Windows alatt, Python 3.10 x64 használatával:
 
-A csomag tartalmazza a Pythont és a függőségeket; a használatához nem kell Python vagy terminál.
+```powershell
+powershell -ExecutionPolicy Bypass -File packaging/build_windows.ps1
+```
 
-1. GitHubon nyisd meg az **Actions → macOS alkalmazás** munkafolyamatot.
-2. Nyisd meg a legutóbbi sikeres futást, majd az **Artifacts** részből töltsd le a gépedhez tartozó csomagot: `arm64` Apple Siliconhoz (M1/M2/M3/M4/M5), `x86_64` Intel Machez. A gép típusát az Apple menü **A Mac névjegye** pontjában találod.
-3. Bontsd ki a letöltött archívumot, majd a benne található ZIP-et is. A `PDF Muhely.app` fájlt másold az **Alkalmazások** mappába, és indítsd dupla kattintással.
+Ez csak erre a folyamatra engedi a saját buildszkript futtatását; nem módosítja a tartós házirendet. Eredmény: `dist/PDF-Muhely-Windows-x64.zip`.
 
-A build automatikusan indul a program main ágra feltöltött módosításakor, vagy kézzel a **Run workflow** gombbal. Az artifactok letöltéséhez GitHub-bejelentkezés szükséges, és 30 napig érhetők el.
+### Mac-csomag
 
-A csomag jelenleg nincs Apple Developer tanúsítvánnyal aláírva és notarizálva. A macOS ezért blokkolhatja az első indítást. Ha ellenőrizted a letöltés forrását, a **Rendszerbeállítások → Adatvédelem és biztonság → Megnyitás mindenképp** lehetőséggel engedélyezheted. Ne kapcsold ki a Gatekeepert. A helyi ad hoc aláírás nem helyettesíti az Apple Developer aláírást.
-
-### Összeállítás a saját Maceden
-
-Ha nem szeretnél GitHub Actionsre várni, a projekt mappájából futtasd:
+Macen, Python 3.10+ használatával:
 
 ```sh
 bash packaging/build_macos.sh
 ```
 
-Ehhez az összeállításkor Python 3.10+ és internet szükséges. Az eredmény a `dist/PDF Muhely.app`, illetve egy, a géped processzorához készült ZIP. A build mind a teszteket, mind a becsomagolt alkalmazás grafikus indulását ellenőrzi. A macOS-verziók közötti kompatibilitást és a natív fájlválasztókat valódi gépen is tesztelni kell.
+Eredmény: `dist/PDF Muhely.app` és a gép processzorához tartozó ZIP. A Windows- és Mac-build a teszteket és a becsomagolt alkalmazás indulását is ellenőrzi.
+
+A GitHub munkafolyamatok a main ágra feltöltött programmódosításokra automatikusan indulnak, vagy kézzel az Actions oldali **Run workflow** gombbal. A Windows-build siker után Release-ként is közzéteszi a csomagot; a Mac-build jelenleg artifactot készít.
