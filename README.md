@@ -9,7 +9,7 @@ A kész csomagok tartalmazzák a Pythont. Válaszd a rendszeredhez tartozó vál
 | Változat | Közvetlen letöltés | Rendszer / megjegyzés |
 | --- | --- | --- |
 | Windows x64 | [ZIP letöltése](https://github.com/baloghim/pdf/releases/latest/download/PDF-Muhely-Windows-x64.zip) | Modern Windows 10 1809+ / Windows 11, Python 3.12 + Qt 6. |
-| **Windows x64 – LTSB 1607 kompatibilitási változat** | [ZIP letöltése](https://github.com/baloghim/pdf/releases/latest/download/PDF-Muhely-Windows-x64-LTSB1607.zip) | Windows 10 Enterprise 2016 LTSB 1607 célrendszer, Python 3.10 + Qt 5. |
+| Windows x64 – LTSB 1607 kompatibilitási változat | [ZIP letöltése](https://github.com/baloghim/pdf/releases/latest/download/PDF-Muhely-Windows-x64-LTSB1607.zip) | Windows 10 Enterprise 2016 LTSB 1607 célrendszer, Python 3.10 + Qt 5. |
 | Linux DEB | [DEB letöltése](https://github.com/baloghim/pdf/releases/latest/download/PDF-Muhely-Linux-x64.deb) | Ubuntu 22.04+, Debian 12+, x86_64. |
 | Linux RPM | [RPM letöltése](https://github.com/baloghim/pdf/releases/latest/download/PDF-Muhely-Linux-x64.rpm) | Modern RPM-alapú x86_64 rendszer, glibc 2.35+; CI-próba Fedora 42-n. |
 | Linux .SH | [SH letöltése](https://github.com/baloghim/pdf/releases/latest/download/PDF-Muhely-Linux-x64.sh) | Hordozható, önkicsomagoló indító; x86_64, glibc 2.35+, grafikus rendszerkönyvtárak. |
