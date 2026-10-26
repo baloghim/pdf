@@ -10,13 +10,13 @@ A letöltés az első sikeres Windows-build és közzététel után válik elér
 2. A kibontott `PDF-Muhely` mappában indítsd el a **PDF-Muhely.exe** fájlt. Ne a ZIP-en belül indítsd, és ne másold ki külön az EXE-t: a mellette lévő `_internal` mappa is szükséges.
 3. Python és telepítő nem szükséges. Az egész mappa átmásolható másik kompatibilis PC-re.
 
-64 bites Windows 10 (1809 vagy újabb), illetve Windows 11 a célplatform; a 32 bites Windows nem támogatott. A GitHub a csomagot Windows Server 2022-n építi és teszteli, ami nem helyettesíti a valódi Windows 10-en végzett kézi ellenőrzést. A program nincs digitálisan aláírva, ezért a SmartScreen figyelmeztethet. Csak a saját tárolód megbízható kiadását indítsd el. Privát tárolónál a letöltéshez GitHub-bejelentkezés kell.
+64 bites Windows 10 Enterprise 2016 LTSB 1607 (és újabb Windows 10/11) a célplatform; a 32 bites Windows nem támogatott. A GitHub a csomagot Windows Server 2022-n építi és teszteli, ami nem helyettesíti a valódi Windows 10 LTSB 1607-en végzett kézi ellenőrzést. Az 1607-kompatibilitás cél, az első ezen a gépen történő sikeres indításig nem tekinthető igazoltnak. A program nincs digitálisan aláírva, ezért a SmartScreen figyelmeztethet. Csak a saját tárolód megbízható kiadását indítsd el. Privát tárolónál a letöltéshez GitHub-bejelentkezés kell.
 
-A Windows-csomag Qt 6.8.3-at használ, és tartalmazza a hozzá tartozó Visual C++ runtime DLL-eket is; a macOS-változat Qt-verziója ettől független. A csomag a Python futtatókörnyezetét és a függőségeket is tartalmazza. A ZIP mellett elérhető `SHA256SUMS.txt` az átmásolt fájl ellenőrzésére szolgál.
+A Windows 1607 kompatibilitási csomag Python 3.10-et és Qt 5.15.2-t (PySide2 5.15.2.1) használ, és tartalmazza a hozzá tartozó Visual C++ runtime DLL-eket is; a macOS-változat Qt-verziója ettől független. A csomag a Python futtatókörnyezetét és a függőségeket is tartalmazza. A ZIP mellett elérhető `SHA256SUMS.txt` az átmásolt fájl ellenőrzésére szolgál.
 
 ### Windows-csomag készítése helyben
 
-Windows alatt, Python 3.12-vel, a projekt mappájából PowerShellben:
+Windows alatt, **Python 3.10 x64** használatával (újabb Python nem jó ehhez a régi Qt-változathoz), a projekt mappájából PowerShellben:
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File packaging/build_windows.ps1
@@ -34,7 +34,7 @@ Python-alapú asztali alkalmazás magyar grafikus felülettel. A fájlokat helyb
 
 ## Indítás macOS-en
 
-Python 3.10 vagy újabb szükséges (a python.org telepítőjével is telepíthető).
+Macen Python 3.10 vagy újabb szükséges (a python.org telepítőjével is telepíthető). Windows alatt a kompatibilitási változathoz pontosan Python 3.10 x64 szükséges.
 
 ```sh
 cd pdf

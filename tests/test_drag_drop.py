@@ -2,9 +2,11 @@
 import os
 os.environ.setdefault('QT_QPA_PLATFORM', 'offscreen')
 import pytest
-from PySide6.QtCore import QMimeData, QPoint, QPointF, Qt, QUrl
-from PySide6.QtGui import QDragEnterEvent, QDropEvent
-from PySide6.QtWidgets import QApplication
+from pdf_tool.qt import QtCore, QtGui, QtWidgets, BINDING
+QMimeData, QPoint, QPointF, Qt, QUrl = (QtCore.QMimeData, QtCore.QPoint,
+                                      QtCore.QPointF, QtCore.Qt, QtCore.QUrl)
+QDragEnterEvent, QDropEvent = QtGui.QDragEnterEvent, QtGui.QDropEvent
+QApplication = QtWidgets.QApplication
 from pypdf import PdfWriter
 from pdf_tool.app import Window
 
@@ -30,12 +32,12 @@ def make_pdf(path):
 def drop(target, paths):
     mime = QMimeData()
     mime.setUrls([QUrl.fromLocalFile(str(p)) for p in paths])
-    enter = QDragEnterEvent(QPoint(10, 10), Qt.DropAction.CopyAction,
-                            mime, Qt.MouseButton.LeftButton, Qt.KeyboardModifier.NoModifier)
+    enter = QDragEnterEvent(QPoint(10, 10), Qt.CopyAction,
+                            mime, Qt.LeftButton, Qt.NoModifier)
     QApplication.sendEvent(target, enter)
     if enter.isAccepted():
-        event = QDropEvent(QPointF(10, 10), Qt.DropAction.CopyAction,
-                           mime, Qt.MouseButton.LeftButton, Qt.KeyboardModifier.NoModifier)
+        event = QDropEvent(QPointF(10, 10), Qt.CopyAction,
+                           mime, Qt.LeftButton, Qt.NoModifier)
         QApplication.sendEvent(target, event)
         assert event.isAccepted()
     return enter.isAccepted()
@@ -84,3 +86,27 @@ def test_invalid_pdf_preserves_previous_split_source(window, tmp_path, monkeypat
     assert drop(window, [broken])
     assert errors
     assert window.source == str(a)
+
+
+def test_background_merge_completes(window, tmp_path):
+    from pdf_tool import core
+    from pypdf import PdfReader
+    a = make_pdf(tmp_path / 'a.pdf')
+    result = tmp_path / 'merged.pdf'
+    loop = QtCore.QEventLoop()
+    timer = QtCore.QTimer()
+    timer.setSingleShot(True)
+    timer.timeout.connect(loop.quit)
+    window.run(lambda: core.merge([a, a], result))
+    assert not window.tabs.isEnabled()
+    window.thread.finished.connect(loop.quit)
+    timer.start(10000)
+    if BINDING == 'pyside2':
+        loop.exec_()
+    else:
+        loop.exec()
+    assert timer.isActive(), 'Background processing timed out'
+    timer.stop()
+    QApplication.processEvents()
+    assert window.tabs.isEnabled()
+    assert len(PdfReader(result).pages) == 6

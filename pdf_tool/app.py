@@ -1,10 +1,15 @@
 """Cross-platform desktop interface."""
 import sys
 from pathlib import Path
-from PySide6.QtCore import Qt, QObject, Signal, QThread, QEvent
-from PySide6.QtWidgets import (QApplication, QWidget, QVBoxLayout, QHBoxLayout,
-    QPushButton, QListWidget, QFileDialog, QMessageBox, QLabel, QTabWidget,
-    QSpinBox, QAbstractItemView)
+from .qt import QtCore, QtWidgets, BINDING
+Qt, QObject, Signal, QThread, QEvent = (QtCore.Qt, QtCore.QObject, QtCore.Signal,
+                                       QtCore.QThread, QtCore.QEvent)
+(QApplication, QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QListWidget,
+ QFileDialog, QMessageBox, QLabel, QTabWidget, QSpinBox, QAbstractItemView) = (
+    QtWidgets.QApplication, QtWidgets.QWidget, QtWidgets.QVBoxLayout,
+    QtWidgets.QHBoxLayout, QtWidgets.QPushButton, QtWidgets.QListWidget,
+    QtWidgets.QFileDialog, QtWidgets.QMessageBox, QtWidgets.QLabel,
+    QtWidgets.QTabWidget, QtWidgets.QSpinBox, QtWidgets.QAbstractItemView)
 from . import core
 
 
@@ -38,8 +43,8 @@ class Window(QWidget):
         ml = QVBoxLayout(merge_tab)
         ml.addWidget(QLabel("Húzz ide PDF-eket. A lista elemei húzással átrendezhetők."))
         self.files = QListWidget()
-        self.files.setDragDropMode(QAbstractItemView.DragDropMode.InternalMove)
-        self.files.setSelectionMode(QAbstractItemView.SelectionMode.ExtendedSelection)
+        self.files.setDragDropMode(QAbstractItemView.InternalMove)
+        self.files.setSelectionMode(QAbstractItemView.ExtendedSelection)
         ml.addWidget(self.files)
         row = QHBoxLayout()
         self.button(row, "PDF-ek hozzáadása…", self.add_files)
@@ -71,8 +76,8 @@ class Window(QWidget):
             widget.installEventFilter(self)
 
     def eventFilter(self, watched, event):
-        if event.type() not in (QEvent.Type.DragEnter, QEvent.Type.DragMove,
-                                QEvent.Type.Drop):
+        if event.type() not in (QEvent.DragEnter, QEvent.DragMove,
+                                QEvent.Drop):
             return super().eventFilter(watched, event)
         if not event.mimeData().hasUrls():
             return super().eventFilter(watched, event)
@@ -88,9 +93,9 @@ class Window(QWidget):
         if not valid:
             event.ignore()
             return True
-        event.setDropAction(Qt.DropAction.CopyAction)
+        event.setDropAction(Qt.CopyAction)
         event.accept()
-        if event.type() == QEvent.Type.Drop:
+        if event.type() == QEvent.Drop:
             if self.tabs.currentIndex() == 0:
                 self.files.addItems(paths)
                 self.status.setText(f"{len(paths)} PDF hozzáadva.")
@@ -194,7 +199,7 @@ def main():
         assert window.tabs.count() == 2
         window.close()
         return 0
-    return app.exec()
+    return app.exec_() if BINDING == "pyside2" else app.exec()
 
 
 if __name__ == "__main__":

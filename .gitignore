@@ -7,3 +7,5 @@ dist/
 .DS_Store
 .venv-build/
 *.spec
+
+.venv-build-win1607/

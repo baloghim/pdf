@@ -8,20 +8,21 @@ function Invoke-Checked {
     if ($LASTEXITCODE -ne 0) { throw "$Program hibakód: $LASTEXITCODE" }
 }
 
-Invoke-Checked -Program 'python' -Arguments @('-m', 'venv', '.venv-build')
-$Python = Join-Path $PWD '.venv-build\Scripts\python.exe'
+Invoke-Checked -Program 'python' -Arguments @('-c', 'import sys; assert sys.version_info[:2] == (3, 10), "A Windows 1607 buildhez Python 3.10 kell."')
+Invoke-Checked -Program 'python' -Arguments @('-m', 'venv', '.venv-build-win1607')
+$Python = Join-Path $PWD '.venv-build-win1607\Scripts\python.exe'
 Invoke-Checked -Program $Python -Arguments @('-m', 'pip', 'install', '-e', '.[test]', 'pyinstaller==6.19.0')
 $env:QT_QPA_PLATFORM = 'offscreen'
 Invoke-Checked -Program $Python -Arguments @('-m', 'pytest', '-q')
 # Collect the official wheel's app-local VC++ runtime explicitly. The CI
 # machine has global runtimes installed, which must not mask missing bundle DLLs.
-$QtDirectory = & $Python -c "import pathlib, PySide6; print(pathlib.Path(PySide6.__file__).parent)"
-if ($LASTEXITCODE -ne 0) { throw 'A PySide6 könyvtára nem található.' }
+$QtDirectory = & $Python -c "import pathlib, PySide2; print(pathlib.Path(PySide2.__file__).parent)"
+if ($LASTEXITCODE -ne 0) { throw 'A PySide2 könyvtára nem található.' }
 $RuntimeNames = @('msvcp140.dll', 'msvcp140_1.dll', 'msvcp140_2.dll', 'msvcp140_codecvt_ids.dll', 'vcruntime140.dll', 'vcruntime140_1.dll', 'concrt140.dll')
 $BuildArguments = @('-m', 'PyInstaller', '--noconfirm', '--clean', '--windowed', '--name', 'PDF-Muhely', '--paths', '.')
 foreach ($Name in $RuntimeNames) {
     $Dll = Join-Path $QtDirectory $Name
-    if (-not (Test-Path $Dll)) { throw "Hiányzó runtime a hivatalos PySide6 csomagból: $Name" }
+    if (-not (Test-Path $Dll)) { throw "Hiányzó runtime a hivatalos PySide2 csomagból: $Name" }
     $BuildArguments += @('--add-binary', "$Dll;.")
 }
 $BuildArguments += 'packaging/launcher.py'
