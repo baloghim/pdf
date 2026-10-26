@@ -8,6 +8,7 @@ on:
       - 'tests/**'
       - 'packaging/**'
       - 'pyproject.toml'
+      - 'legacy/**'
       - '.github/workflows/**'
 permissions:
   contents: read
@@ -42,6 +43,23 @@ jobs:
         with:
           name: windows-${{ matrix.variant }}
           path: dist/${{ matrix.asset }}
+          if-no-files-found: error
+  windows-xp:
+    name: Windows XP (x86)
+    runs-on: windows-2022
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - name: Build net35 x86 and test under CLR 4
+        shell: pwsh
+        run: ./packaging/build_windows_xp.ps1
+      - uses: actions/upload-artifact@v4
+        with:
+          name: windows-xp-x86
+          path: dist/PDF-Muhely-Windows-XP-x86.zip
           if-no-files-found: error
   macos:
     name: Mac OS (${{ matrix.arch }})
@@ -111,9 +129,9 @@ jobs:
             dist/PDF-Muhely-Linux-x64.sh
           if-no-files-found: error
   release:
-    name: Közzététel (7 csomag)
+    name: Közzététel (8 csomag)
     if: github.ref == 'refs/heads/main'
-    needs: [windows, macos, linux]
+    needs: [windows, windows-xp, macos, linux]
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -131,7 +149,7 @@ jobs:
         run: |
           set -euo pipefail
           cd release
-          for asset in PDF-Muhely-Windows-x64.zip PDF-Muhely-Windows-x64-LTSB1607.zip PDF-Muhely-Linux-x64.deb PDF-Muhely-Linux-x64.rpm PDF-Muhely-Linux-x64.sh PDF-Muhely-macOS-arm64.zip PDF-Muhely-macOS-x86_64.zip; do
+          for asset in PDF-Muhely-Windows-XP-x86.zip PDF-Muhely-Windows-x64.zip PDF-Muhely-Windows-x64-LTSB1607.zip PDF-Muhely-Linux-x64.deb PDF-Muhely-Linux-x64.rpm PDF-Muhely-Linux-x64.sh PDF-Muhely-macOS-arm64.zip PDF-Muhely-macOS-x86_64.zip; do
             test -s "$asset"
             sha256sum "$asset"
           done > SHA256SUMS.txt
@@ -142,5 +160,5 @@ jobs:
           else
             gh release create "$tag" ./* --target "$BUILD_SHA" --latest \
               --title "PDF Műhely – minden rendszer (${BUILD_SHA:0:7})" \
-              --notes 'Windows x64; Windows x64 LTSB 1607 kompatibilitási változat; Linux DEB, RPM és SH; Mac OS Silicon és Intel. Telepítés és rendszerkövetelmények a README-ben. A csomagok nincsenek kiadói tanúsítvánnyal aláírva. Az LTSB 1607 célgépen történő működés külön ellenőrzést igényel.'
+              --notes 'Windows XP x86 (.NET 3.5 SP1 szükséges); Windows x64; Windows x64 LTSB 1607 kompatibilitási változat; Linux DEB, RPM és SH; Mac OS Silicon és Intel. Telepítés és rendszerkövetelmények a README-ben. A csomagok nincsenek kiadói tanúsítvánnyal aláírva. Az LTSB 1607 célgépen történő működés külön ellenőrzést igényel.'
           fi

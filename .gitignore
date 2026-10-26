@@ -12,3 +12,5 @@ dist/
 
 .venv-build-win-*/
 .venv-build-linux/
+legacy/**/bin/
+legacy/**/obj/
