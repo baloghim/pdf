@@ -9,3 +9,6 @@ dist/
 *.spec
 
 .venv-build-win1607/
+
+.venv-build-win-*/
+.venv-build-linux/

@@ -4,32 +4,36 @@ Magyar nyelvű asztali alkalmazás PDF-ek összefűzésére és kettévágásár
 
 ## Letöltések
 
-A kész alkalmazásokhoz nem kell Pythont telepíteni.
+A kész csomagok tartalmazzák a Pythont. Válaszd a rendszeredhez tartozó változatot:
 
-| Rendszer / változat | Letöltés | Melyiket válaszd? |
+| Változat | Közvetlen letöltés | Rendszer / megjegyzés |
 | --- | --- | --- |
-| **Windows x64 – LTSB 1607 kompatibilitási változat** | **[Legutóbbi Windows ZIP](https://github.com/baloghim/pdf/releases/latest/download/PDF-Muhely-Windows-x64.zip)** | Windows 10 Enterprise 2016 LTSB 1607 géphez ezt készítjük; újabb 64 bites Windows is célplatform. |
-| **macOS – Apple Silicon** | **[Mac-csomagok az Actions oldalon](https://github.com/baloghim/pdf/actions/workflows/macos-app.yml)** | M-sorozatú processzorhoz az `PDF-Muhely-macOS-arm64` artifactot válaszd. |
-| **macOS – Intel** | **[Mac-csomagok az Actions oldalon](https://github.com/baloghim/pdf/actions/workflows/macos-app.yml)** | Intel processzorhoz az `PDF-Muhely-macOS-x86_64` artifactot válaszd. |
+| Windows x64 | [ZIP letöltése](https://github.com/baloghim/pdf/releases/latest/download/PDF-Muhely-Windows-x64.zip) | Modern Windows 10 1809+ / Windows 11, Python 3.12 + Qt 6. |
+| **Windows x64 – LTSB 1607 kompatibilitási változat** | [ZIP letöltése](https://github.com/baloghim/pdf/releases/latest/download/PDF-Muhely-Windows-x64-LTSB1607.zip) | Windows 10 Enterprise 2016 LTSB 1607 célrendszer, Python 3.10 + Qt 5. |
+| Linux DEB | [DEB letöltése](https://github.com/baloghim/pdf/releases/latest/download/PDF-Muhely-Linux-x64.deb) | Ubuntu 22.04+, Debian 12+, x86_64. |
+| Linux RPM | [RPM letöltése](https://github.com/baloghim/pdf/releases/latest/download/PDF-Muhely-Linux-x64.rpm) | Modern RPM-alapú x86_64 rendszer, glibc 2.35+; CI-próba Fedora 42-n. |
+| Linux .SH | [SH letöltése](https://github.com/baloghim/pdf/releases/latest/download/PDF-Muhely-Linux-x64.sh) | Hordozható, önkicsomagoló indító; x86_64, glibc 2.35+, grafikus rendszerkönyvtárak. |
+| Mac OS Silicon | [ZIP letöltése](https://github.com/baloghim/pdf/releases/latest/download/PDF-Muhely-macOS-arm64.zip) | Apple Silicon, M-sorozatú processzor. |
+| Mac OS Intel | [ZIP letöltése](https://github.com/baloghim/pdf/releases/latest/download/PDF-Muhely-macOS-x86_64.zip) | Intel processzor. |
 
-**[Összes Windows-kiadás és korábbi verziók](https://github.com/baloghim/pdf/releases)** · **[Windows-build állapota](https://github.com/baloghim/pdf/actions/workflows/windows-app.yml)** · **[Mac-build állapota](https://github.com/baloghim/pdf/actions/workflows/macos-app.yml)**
+**[Összes kiadás és korábbi verziók](https://github.com/baloghim/pdf/releases)** · **[Build állapota / kézi indítás](https://github.com/baloghim/pdf/actions/workflows/desktop-release.yml)** · **[SHA256 ellenőrzőösszegek](https://github.com/baloghim/pdf/releases/latest/download/SHA256SUMS.txt)**
 
-A Windows-link a legutóbb sikeresen **közzétett** kiadásra mutat. Ha egy új build még fut vagy hibás, továbbra is az előző csomagot adja. Az első sikeres közzététel előtt a link nem működik. A kiadás címében szereplő rövid commitazonosító alapján ellenőrizhető, melyik változatot töltöd le. Privát tárolóhoz GitHub-bejelentkezés szükséges.
+A hét csomag közös kiadásként jelenik meg, ha minden platform buildje és ellenőrzése sikeres. Addig az új linkek még nem működnek, vagy korábbi csomagot adnak. **LTSB 1607-hez az LTSB feliratú ZIP-et válaszd**; a sima Windows x64 ZIP az új közös kiadástól kezdve a modern változatot tartalmazza. A kiadás címe és a `desktop-<teljes commitazonosító>` tag jelöli a pontos forrásváltozatot. Privát tárolónál bejelentkezés szükséges.
 
-A Mac-csomagok jelenleg az Actions futások **Artifacts** részéből tölthetők le, bejelentkezés után; 30 napig érhetők el. Nyisd meg a legutóbbi sikeres futást, és válaszd a processzorodhoz tartozó artifactot. Lejárt csomag esetén a **Run workflow** gombbal indítható új build.
+Ha egy platform hibája miatt a közös kiadás nem készül el, a sikeres buildek csomagjai az Actions futás **Artifacts** részéből is letölthetők. A régi Windows-kiadások és Mac-artifactok az előzményekben maradnak.
 
 ## Verziók és kompatibilitás
 
-Az alkalmazás projektverziója **0.1.0**. A fejlesztési csomagokat ezen belül a commitazonosító különbözteti meg; ezek nem külön számozott stabil kiadások.
+A projektverzió **0.1.0**, ezen belül a commitazonosító különbözteti meg a fejlesztési kiadásokat.
 
-| Változat | Azonosító / hivatkozás | Megjegyzés |
-| --- | --- | --- |
-| **Windows LTSB 1607 kompatibilitási alap** | [`b7bcc00`](https://github.com/baloghim/pdf/commit/b7bcc00) · [pontos kiadás, ha a build közzétette](https://github.com/baloghim/pdf/releases/tag/windows-b7bcc009e8b015212c5e567ebdb46d96978291dc) | Python 3.10, Qt 5.15.2 / PySide2 5.15.2.1. A későbbi Windows-csomagok is ezen az alapon készülnek, amíg a dokumentáció mást nem jelez. |
-| Korábbi Windows Qt 6.8 változat | [`17e2403`](https://github.com/baloghim/pdf/commit/17e2403) | Nem az 1607-es rendszerhez készült; arra ne ezt válaszd. |
-| Első Windows Qt 6 változat | [`2c391e9`](https://github.com/baloghim/pdf/commit/2c391e9) | Korábbi csomag, LTSB 1607-hez nem megfelelő. |
-| macOS, Apple Silicon / Intel | [Legutóbbi sikeres Mac-build](https://github.com/baloghim/pdf/actions/workflows/macos-app.yml) | Python 3.12-vel csomagolva, Qt 6.10.2 / PySide6. |
+| Változat | Futási környezet a csomagban |
+| --- | --- |
+| Windows x64 | Python 3.12, PySide6 6.10.2 |
+| Windows x64 LTSB 1607 | Python 3.10, PySide2 5.15.2.1 / Qt 5.15.2 |
+| Linux DEB / RPM / .SH | Python 3.12, PySide6 6.10.2; Ubuntu 22.04-en összeállítva |
+| Mac OS Silicon / Intel | Python 3.12, PySide6 6.10.2 |
 
-**Ellenőrzöttség:** az 1607-es változat célzottan ehhez a rendszerhez készül, de a valódi LTSB 1607 gépen történő sikeres indítás még nincs visszaigazolva. A Windows-csomagot a GitHub Windows Server 2022-n építi és teszteli. A Linuxos fejlesztőkörnyezetben mind a Qt 5-ös, mind a Qt 6-os változat 11 tesztje sikeres. Ez nem helyettesíti a natív Windows- és Mac-próbát.
+Az LTSB-kompatibilitási alap a [`b7bcc00`](https://github.com/baloghim/pdf/commit/b7bcc00) változatban készült. A korábbi Qt 6-os Windows-csomagok nem az 1607-es géphez valók. Az LTSB célgépen történő sikeres indítás még nincs visszaigazolva. A CI-beli indulási tesztek nem helyettesítik a valódi gépeken történő interaktív próbát.
 
 ## Használat Windows alatt
 
@@ -41,11 +45,40 @@ Ne a ZIP-en belül indítsd, és frissítéskor ne keverd a régi és az új cso
 
 A program nincs digitálisan aláírva, ezért a SmartScreen figyelmeztethet. Csak megbízható forrásból letöltött csomagot indíts el.
 
+## Használat Linux alatt
+
+### DEB (Ubuntu / Debian)
+
+A letöltés mappájában:
+
+```sh
+sudo apt install ./PDF-Muhely-Linux-x64.deb
+```
+
+Ez a szükséges rendszerfüggőségeket is telepíti. Indítás az alkalmazásmenü **PDF Műhely** pontjából vagy a `pdf-muhely` paranccsal. Eltávolítás: `sudo apt remove pdf-muhely`.
+
+### RPM (például Fedora)
+
+```sh
+sudo dnf install ./PDF-Muhely-Linux-x64.rpm
+```
+
+Indítás a menüből vagy `pdf-muhely`; eltávolítás: `sudo dnf remove pdf-muhely`. A csomag legalább glibc 2.35-öt igényel, így például az alap RHEL 9 glibc 2.34-es rendszere nem célplatform.
+
+### .SH (telepítés nélkül)
+
+```sh
+chmod +x PDF-Muhely-Linux-x64.sh
+./PDF-Muhely-Linux-x64.sh
+```
+
+Vagy `bash PDF-Muhely-Linux-x64.sh`. Az indító ideiglenes mappába bontja ki az alkalmazást, és kilépéskor eltávolítja azt. Rendszergazdai jog és Python-telepítés nem kell. A kicsomagoláshoz szabad hely és végrehajtást engedélyező ideiglenes fájlrendszer szükséges; utóbbi a `TMPDIR` változóval választható. X11 vagy XWayland grafikus munkamenet szükséges. A DEB/RPM által jelzett Qt/XCB rendszerkönyvtáraknak a hordozható változathoz is rendelkezésre kell állniuk; hiányzó könyvtár esetén a DEB/RPM a javasolt telepítés.
+
 ## Használat macOS alatt
 
-1. A fenti Mac-linken nyisd meg a legutóbbi sikeres futást, és töltsd le a megfelelő artifactot.
-2. Bontsd ki az archívumot, majd a benne lévő ZIP-et is.
-3. Másold a **`PDF Muhely.app`** fájlt az **Alkalmazások** mappába, és indítsd dupla kattintással.
+1. A fenti táblázatból töltsd le a megfelelő ZIP-et.
+2. Bontsd ki, és másold a **`PDF Muhely.app`** fájlt az **Alkalmazások** mappába.
+3. Indítsd dupla kattintással.
 
 A processzor típusa az Apple menü **A Mac névjegye** pontjában látható. Az alkalmazás nincs Apple Developer tanúsítvánnyal aláírva és notarizálva. Ha a macOS blokkolja, és ellenőrizted a forrást, a **Rendszerbeállítások → Adatvédelem és biztonság → Megnyitás mindenképp** lehetőséggel engedélyezheted. Ne kapcsold ki a Gatekeepert.
 
@@ -63,7 +96,7 @@ Mappák és nem PDF fájlok nem húzhatók be. Jelszóval védett PDF-eket a pro
 
 ### Indítás forrásból
 
-Macen és Linuxon Python 3.10 vagy újabb, Windowson **Python 3.10 x64** szükséges a Qt 5-ös változathoz.
+Macen és Linuxon Python 3.10 vagy újabb, Windowson **Python 3.10 x64** szükséges az LTSB/Qt 5 változathoz, a modern build Python 3.12 x64-et használ.
 
 ```sh
 cd pdf
@@ -86,10 +119,10 @@ python -m pytest -q
 Windows alatt, Python 3.10 x64 használatával:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File packaging/build_windows.ps1
+powershell -ExecutionPolicy Bypass -File packaging/build_windows.ps1 -Variant ltsb1607
 ```
 
-Ez csak erre a folyamatra engedi a saját buildszkript futtatását; nem módosítja a tartós házirendet. Eredmény: `dist/PDF-Muhely-Windows-x64.zip`.
+Ez csak erre a folyamatra engedi a saját buildszkript futtatását; nem módosítja a tartós házirendet. Eredmény: `dist/PDF-Muhely-Windows-x64-LTSB1607.zip`. Modern Windows-csomaghoz Python 3.12 mellett `-Variant modern` szükséges; annak fájlneve `PDF-Muhely-Windows-x64.zip`.
 
 ### Mac-csomag
 
@@ -101,4 +134,14 @@ bash packaging/build_macos.sh
 
 Eredmény: `dist/PDF Muhely.app` és a gép processzorához tartozó ZIP. A Windows- és Mac-build a teszteket és a becsomagolt alkalmazás indulását is ellenőrzi.
 
-A GitHub munkafolyamatok a main ágra feltöltött programmódosításokra automatikusan indulnak, vagy kézzel az Actions oldali **Run workflow** gombbal. A Windows-build siker után Release-ként is közzéteszi a csomagot; a Mac-build jelenleg artifactot készít.
+### Linux-csomagok készítése
+
+Linux x86_64, Python 3.12, nfpm 2.41.3 és a Qt grafikus rendszerkönyvtárai szükségesek. A build alapja Ubuntu 22.04; újabb rendszeren készült helyi build újabb glibc-t igényelhet.
+
+```sh
+bash packaging/build_linux.sh
+```
+
+Eredmény a `dist` mappában: DEB, RPM és SH. A CI a DEB telepítését Ubuntu 22.04-en, az RPM telepítését Fedora 42 konténerben, az SH indítását virtuális X11 kijelzővel ellenőrzi.
+
+A közös GitHub munkafolyamat main ágra feltöltött programmódosításra indul, vagy kézzel az Actions **Run workflow** gombjával. Az ellenőrzések után mind a hét csomagot és a közös `SHA256SUMS.txt` fájlt egyetlen Release-ben teszi közzé.

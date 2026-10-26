@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=PDF Műhely
+Comment=PDF-ek összefűzése és kettévágása
+Exec=/opt/pdf-muhely/PDF-Muhely
+Icon=application-pdf
+Terminal=false
+Categories=Office;Utility;
+StartupNotify=true
