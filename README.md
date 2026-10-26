@@ -12,7 +12,7 @@ A letöltés az első sikeres Windows-build és közzététel után válik elér
 
 64 bites Windows 10 (1809 vagy újabb), illetve Windows 11 a célplatform; a 32 bites Windows nem támogatott. A GitHub a csomagot Windows Server 2022-n építi és teszteli, ami nem helyettesíti a valódi Windows 10-en végzett kézi ellenőrzést. A program nincs digitálisan aláírva, ezért a SmartScreen figyelmeztethet. Csak a saját tárolód megbízható kiadását indítsd el. Privát tárolónál a letöltéshez GitHub-bejelentkezés kell.
 
-A csomag a Python futtatókörnyezetét és a függőségeket is tartalmazza. A ZIP mellett elérhető `SHA256SUMS.txt` az átmásolt fájl ellenőrzésére szolgál.
+A Windows-csomag Qt 6.8.3-at használ, és tartalmazza a hozzá tartozó Visual C++ runtime DLL-eket is; a macOS-változat Qt-verziója ettől független. A csomag a Python futtatókörnyezetét és a függőségeket is tartalmazza. A ZIP mellett elérhető `SHA256SUMS.txt` az átmásolt fájl ellenőrzésére szolgál.
 
 ### Windows-csomag készítése helyben
 
